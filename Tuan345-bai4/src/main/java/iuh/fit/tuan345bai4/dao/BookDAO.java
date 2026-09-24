@@ -1,13 +1,10 @@
 package iuh.fit.tuan345bai4.dao;
 
-import iuh.fit.tuan345bai4.model.Book;
+import iuh.fit.tuan345bai4.beans.Book;
 import iuh.fit.tuan345bai4.util.DBUtil;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +26,12 @@ public class BookDAO {
 
             while (rs.next()) {
                 Long id = rs.getLong("ID");
-                String title = rs.getString("TITLE");
+                String tittle = rs.getString("TITTLE");
                 String author = rs.getString("AUTHOR");
                 double price = rs.getDouble("PRICE");
                 String image = rs.getString("IMGBOOK");
-
-                Book b = new Book(id,title,author,price,image);
+                int quantity = rs.getInt("QUANTITY");
+                Book b = new Book(id,tittle,author,price,image,quantity);
                 list.add(b);
             }
 
@@ -43,5 +40,35 @@ public class BookDAO {
         }
 
         return list;
+    }
+
+    public Book getBookById(long id) {
+        String sql = "SELECT * FROM books WHERE ID=?";
+
+        try (Connection conn = dbUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setLong(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Long bookid = rs.getLong("ID");
+                    String tittle = rs.getString("TITTLE");
+                    String author = rs.getString("AUTHOR");
+                    double price = rs.getDouble("PRICE");
+                    String image = rs.getString("IMGBOOK");
+                    int quantity = rs.getInt("QUANTITY");
+
+                    Book b = new Book(bookid,tittle,author,price,image,quantity);
+
+                    return b;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
