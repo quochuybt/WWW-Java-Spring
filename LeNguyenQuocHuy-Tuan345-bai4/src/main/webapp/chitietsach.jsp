@@ -269,7 +269,7 @@
                         <form method="post"
                               action="${pageContext.request.contextPath}/cart">
                             <input type="hidden" name="action" value="add">
-                            <input type="hidden" name="productId" value="${book.id}">
+                            <input type="hidden" name="bookId" value="${book.id}">
                             <input type="hidden" name="qty" value="1">
 
                             <button type="submit" class="add-cart">
