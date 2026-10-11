@@ -1,6 +1,7 @@
 package com.se.demorestdb.resource;
 
 import com.se.demorestdb.RestApplicationConfig;
+import com.se.demorestdb.dto.Cau3;
 import com.se.demorestdb.model.DanhMuc;
 import com.se.demorestdb.service.DanhMucService;
 import jakarta.inject.Inject;
@@ -59,6 +60,33 @@ public class DanhMucResource {
     public Response deleteDanhMuc(@PathParam("id") int id) {
         danhMucService.deleteDanhMuc(id);
         return Response.ok("Đã xóa danh mục thành công").build();
+    }
+
+    @GET
+    @Path("/thongKeSLBaiVietBoiDM")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response thongKeSLBaiVietBoiDM() {
+        List<Cau3> cau3List = danhMucService.thongKeSLBaiVietBoiDM();
+        return Response.ok(cau3List).build();
+    }
+
+    @GET
+    @Path("/lietKeDMco3baiViet")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response lietKeDMco3baiViet() {
+        List<Cau3> cau3List = danhMucService.lietKeDMco3baiViet();
+        return Response.ok(cau3List).build();
+    }
+
+    @GET
+    @Path("/dmcoSLTTnhieuNhat")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response dmcoSLTTnhieuNhat() {
+        List<Cau3> cau3List = danhMucService.dmcoSLTTnhieuNhat();
+        return Response.ok(cau3List).build();
     }
 
 

@@ -1,6 +1,7 @@
 package com.se.demorestdb.repo;
 
 import com.se.demorestdb.bean.BaseBean;
+import com.se.demorestdb.dto.Cau1;
 import com.se.demorestdb.dto.Cau3;
 import com.se.demorestdb.model.DanhMuc;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -115,17 +116,88 @@ public class DanhMucRepoImpl extends BaseBean implements DanhMucRepo{
 
     @Override
     public List<Cau3> thongKeSLBaiVietBoiDM() {
-        return List.of();
+        List<Cau3> cau3List = new ArrayList<>();
+        String sql = """
+                select d.madm, d.tendanhmuc, count(t.MATT) as soluong
+                    from danhmuc d
+                    left join tintuc t on t.MADM = d.MADM
+                    group by madm, TENDANHMUC
+                """;
+        try (Connection conn = getDataSource().getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        ) {
+            while (rs.next()) {
+                Cau3 cau3 = new Cau3();
+                cau3.setMaDm(rs.getInt("madm"));
+                cau3.setTenDm(rs.getString("tendanhmuc"));
+                cau3.setSoluong(rs.getInt("soluong"));
+                cau3List.add(cau3);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return cau3List;
     }
 
     @Override
     public List<Cau3> lietKeDMco3baiViet() {
-        return List.of();
+        List<Cau3> cau3List = new ArrayList<>();
+        String sql = """
+                select d.madm, d.tendanhmuc, count(t.MATT) as soluong
+                from danhmuc d
+                inner join tintuc t on t.MADM = d.MADM
+                group by madm, TENDANHMUC
+                having count(t.MATT) >=3
+                """;
+        try (Connection conn = getDataSource().getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Cau3 cau3 = new Cau3();
+                cau3.setMaDm(rs.getInt("madm"));
+                cau3.setTenDm(rs.getString("tendanhmuc"));
+                cau3.setSoluong(rs.getInt("soluong"));
+                cau3List.add(cau3);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return cau3List;
     }
 
     @Override
     public List<Cau3> dmcoSLTTnhieuNhat() {
-        return List.of();
+        List<Cau3> cau3List = new ArrayList<>();
+        String sql = """
+                select d.madm, d.tendanhmuc, count(t.MATT) as soluong
+                from danhmuc d
+                inner join tintuc t on t.MADM = d.MADM
+                group by madm, TENDANHMUC
+                HAVING count(t.matt) = (
+                    select MAX(soluong) 
+                    from (
+                        Select count(t2.matt) as soluong
+                        from danhmuc d2
+                        inner join tintuc t2 on t2.madm = d2.madm
+                        group by d2.madm
+                    ) as thongkemax
+                );
+                """;
+        try (Connection conn = getDataSource().getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Cau3 cau3 = new Cau3();
+                cau3.setMaDm(rs.getInt("madm"));
+                cau3.setTenDm(rs.getString("tendanhmuc"));
+                cau3.setSoluong(rs.getInt("soluong"));
+                cau3List.add(cau3);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return cau3List;
     }
 
 }

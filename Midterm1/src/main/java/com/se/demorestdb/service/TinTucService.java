@@ -1,6 +1,7 @@
 package com.se.demorestdb.service;
 
 import com.se.demorestdb.dto.Cau1;
+import com.se.demorestdb.dto.Cau2;
 import com.se.demorestdb.model.TinTuc;
 import com.se.demorestdb.repo.TinTucRepo;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -36,5 +37,9 @@ public class TinTucService {
 
     public void deleteTT(int id) {
         tinTucRepo.deleteTinTuc(id);
+    }
+
+    public List<Cau2> getTTByTenDM(String tenDanhMuc) {
+        return tinTucRepo.getTTByTenDM(tenDanhMuc);
     }
 }

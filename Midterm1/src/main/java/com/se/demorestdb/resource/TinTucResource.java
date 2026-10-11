@@ -1,6 +1,7 @@
 package com.se.demorestdb.resource;
 
 import com.se.demorestdb.dto.Cau1;
+import com.se.demorestdb.dto.Cau2;
 import com.se.demorestdb.model.TinTuc;
 import com.se.demorestdb.service.TinTucService;
 import jakarta.inject.Inject;
@@ -63,5 +64,14 @@ public class TinTucResource {
     public Response getTTWithTenDM() {
         List<Cau1> cau1List = tinTucService.getTinTucWithTenDanhMuc();
         return Response.ok(cau1List).build();
+    }
+
+    @GET
+    @Path("/getTTByTenDM")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getTTByTenDM(@QueryParam("tenDM")String tenDM) {
+        List<Cau2> cau2List = tinTucService.getTTByTenDM(tenDM);
+        return Response.ok(cau2List).build();
     }
 }

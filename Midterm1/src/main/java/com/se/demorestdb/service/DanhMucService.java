@@ -1,6 +1,7 @@
 package com.se.demorestdb.service;
 
 import com.se.demorestdb.dto.Cau1;
+import com.se.demorestdb.dto.Cau3;
 import com.se.demorestdb.model.DanhMuc;
 import com.se.demorestdb.repo.DanhMucRepo;
 import com.se.demorestdb.repo.TinTucRepo;
@@ -34,6 +35,19 @@ public class DanhMucService {
     public void deleteDanhMuc(int id) {
         danhMucRepo.deleteDanhMuc(id);
     }
+
+    public List<Cau3> thongKeSLBaiVietBoiDM() {
+        return danhMucRepo.thongKeSLBaiVietBoiDM();
+    }
+
+    public List<Cau3> lietKeDMco3baiViet() {
+        return danhMucRepo.lietKeDMco3baiViet();
+    }
+
+    public List<Cau3> dmcoSLTTnhieuNhat() {
+        return danhMucRepo.dmcoSLTTnhieuNhat();
+    }
+
 
 
 }
