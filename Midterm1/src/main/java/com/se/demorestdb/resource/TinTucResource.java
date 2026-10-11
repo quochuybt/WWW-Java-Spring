@@ -1,12 +1,10 @@
 package com.se.demorestdb.resource;
 
 import com.se.demorestdb.dto.Cau1;
+import com.se.demorestdb.model.TinTuc;
 import com.se.demorestdb.service.TinTucService;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -18,6 +16,47 @@ public class TinTucResource {
 
     @Inject
     private TinTucService tinTucService;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllTT () {
+        List<TinTuc> tinTucs = tinTucService.getAllTinTuc();
+        return Response.ok(tinTucs).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response getTTById (@PathParam("id") int id) {
+        TinTuc tinTuc = tinTucService.getTTById(id);
+        return Response.ok(tinTuc).build();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addTT (TinTuc tinTuc) {
+        TinTuc newtinTuc = tinTucService.addTT(tinTuc);
+        return Response.ok(Response.Status.CREATED).entity(newtinTuc).build();
+    }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response updateTT (@PathParam("id") int id, TinTuc tinTuc) {
+        TinTuc newtinTuc = tinTucService.updateTT(id,tinTuc);
+        return Response.ok(newtinTuc).build();
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response deleteTT (@PathParam("id") int id) {
+        tinTucService.deleteTT(id);
+        return Response.ok("Đã xóa tin tức thành công").build();
+    }
 
     @GET
     @Path("/getTTWithTenDM")

@@ -58,7 +58,7 @@ public class DanhMucResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteDanhMuc(@PathParam("id") int id) {
         danhMucService.deleteDanhMuc(id);
-        return Response.ok("Đã xóa thành công").build();
+        return Response.ok("Đã xóa danh mục thành công").build();
     }
 
 

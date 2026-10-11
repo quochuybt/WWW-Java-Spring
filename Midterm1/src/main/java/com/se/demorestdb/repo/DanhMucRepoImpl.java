@@ -1,5 +1,7 @@
 package com.se.demorestdb.repo;
 
+import com.se.demorestdb.bean.BaseBean;
+import com.se.demorestdb.dto.Cau3;
 import com.se.demorestdb.model.DanhMuc;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -14,22 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
-public class DanhMucRepoImpl implements DanhMucRepo{
-
-    private volatile DataSource dataSource;
-    public DataSource getDataSource() {
-        if (dataSource==null) {
-            try {
-                Context env = (Context) new InitialContext().lookup("java:comp/env");
-                dataSource = (DataSource) env.lookup("jdbc/quanlytintuc");
-            } catch (NamingException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        return dataSource;
-    }
-
+public class DanhMucRepoImpl extends BaseBean implements DanhMucRepo{
 
     @Override
     public List<DanhMuc> getAllDanhMuc() {
@@ -124,6 +111,21 @@ public class DanhMucRepoImpl implements DanhMucRepo{
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Cau3> thongKeSLBaiVietBoiDM() {
+        return List.of();
+    }
+
+    @Override
+    public List<Cau3> lietKeDMco3baiViet() {
+        return List.of();
+    }
+
+    @Override
+    public List<Cau3> dmcoSLTTnhieuNhat() {
+        return List.of();
     }
 
 }

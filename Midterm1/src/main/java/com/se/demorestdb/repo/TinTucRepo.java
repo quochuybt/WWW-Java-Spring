@@ -1,6 +1,8 @@
 package com.se.demorestdb.repo;
 
 import com.se.demorestdb.dto.Cau1;
+import com.se.demorestdb.dto.Cau2;
+import com.se.demorestdb.dto.Cau3;
 import com.se.demorestdb.model.DanhMuc;
 import com.se.demorestdb.model.TinTuc;
 
@@ -13,4 +15,6 @@ public interface TinTucRepo {
     TinTuc updateTinTuc(int id, TinTuc tinTuc);
     void deleteTinTuc(int id);
     List<Cau1> getTinTucWithTenDM();
+    List<Cau2> getTTByTenDM(String tendanhmuc);
+
 }
