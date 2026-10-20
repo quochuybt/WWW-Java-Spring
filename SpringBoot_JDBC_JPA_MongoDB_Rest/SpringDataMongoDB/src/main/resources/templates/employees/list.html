@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Nhân Viên</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+<h2>Quản Lý Nhân Viên</h2>
+<div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+<a href="/employees/new" class="btn btn-primary mb-3">Thêm Nhân Viên Mới</a>
+<a href="/employees/search" class="btn btn-secondary mb-3 ms-2">Tìm Kiếm</a>
+
+<table class="table table-bordered align-middle">
+    <thead class="table-dark">
+    <tr>
+        <th>ID</th>
+        <th>Họ Và Tên</th>
+        <th>Tuổi</th>
+        <th>Lương</th>
+        <th>Phòng Ban</th>
+        <th>Chức Vụ</th>
+        <th>Thao Tác</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="emp : ${employees}">
+        <td th:text="${emp.id}"></td>
+        <td th:text="${emp.name}"></td>
+        <td th:text="${emp.age}"></td>
+        <td th:text="${#numbers.formatDecimal(emp.salary, 0, 'COMMA', 2, 'POINT')}"></td>
+        <td th:text="${emp.departmentId != null ? emp.departmentId : 'Chưa phân'}"></td>
+        <td th:text="${emp.positionId != null ? emp.positionId : 'Chưa phân'}"></td>
+        <td>
+            <a th:href="@{/employees/{id}(id=${emp.id})}" class="btn btn-info btn-sm">Xem</a>
+            <a th:href="@{/employees/{id}/edit(id=${emp.id})}" class="btn btn-warning btn-sm">Sửa</a>
+            <form th:action="@{/employees/{id}/delete(id=${emp.id})}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
