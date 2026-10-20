@@ -1,0 +1,6 @@
+package iuh.fit.springjdbc.repo;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class PositionRepository{}
