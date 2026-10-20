@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông Tin Nhân Viên</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+<h2 th:text="${employeeForm.id == null ? 'Thêm Nhân Viên' : 'Chỉnh Sửa Nhân Viên'}"></h2>
+
+<form th:action="${employeeForm.id == null ? '/employees' : '/employees/' + employeeForm.id}"
+      th:object="${employeeForm}" method="post" class="col-md-6">
+
+    <div class="mb-3">
+        <label class="form-label">Tên Nhân Viên:</label>
+        <input type="text" th:field="*{name}" class="form-control" />
+        <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Tuổi:</label>
+        <input type="number" th:field="*{age}" class="form-control" />
+        <div class="text-danger" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Lương:</label>
+        <input type="number" step="0.01" th:field="*{salary}" class="form-control" />
+        <div class="text-danger" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Lưu</button>
+    <a href="/employees" class="btn btn-secondary">Hủy</a>
+</form>
+</body>
+</html>

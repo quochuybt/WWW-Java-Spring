@@ -32,6 +32,7 @@ public class DanhMucResource {
     @Path("/{id}")
     public Response getDanhMucById(@PathParam("id") int id) {
         DanhMuc danhMuc = danhMucService.getDanhMucById(id);
+        if (danhMuc==null) return Response.status(Response.Status.NOT_FOUND).build();
         return Response.ok(danhMuc).build();
     }
 
