@@ -1,15 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Danh Sách Nhân Viên</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body class="container mt-4">
-<h2>Quản Lý Nhân Viên</h2>
+
+<!-- Header thông tin đânh nhập -->
+<div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded">
+    <h2>Quản Lý Nhân Viên (Spring Data MongoDB)</h2>
+    <div sec:authorize="isAuthenticated()">
+        Xin chào, <b sec:authentication="name"></b>
+        (<span sec:authentication="principal.authorities"></span>)
+        <form th:action="@{/logout}" method="post" class="d-inline ms-2">
+            <button type="submit" class="btn btn-outline-danger btn-sm">Đăng xuất</button>
+        </form>
+    </div>
+</div>
+
 <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
 
-<a href="/employees/new" class="btn btn-primary mb-3">Thêm Nhân Viên Mới</a>
+<a sec:authorize="hasAnyRole('USER', 'ADMIN')" href="/employees/new" class="btn btn-primary mb-3">Thêm Nhân Viên Mới</a>
 <a href="/employees/search" class="btn btn-secondary mb-3 ms-2">Tìm Kiếm</a>
 
 <table class="table table-bordered align-middle">
@@ -19,8 +32,8 @@
         <th>Họ Và Tên</th>
         <th>Tuổi</th>
         <th>Lương</th>
-        <th>Phòng Ban</th>
-        <th>Chức Vụ</th>
+        <th>Phòng Ban ID</th>
+        <th>Chức Vụ ID</th>
         <th>Thao Tác</th>
     </tr>
     </thead>
@@ -34,8 +47,12 @@
         <td th:text="${emp.positionId != null ? emp.positionId : 'Chưa phân'}"></td>
         <td>
             <a th:href="@{/employees/{id}(id=${emp.id})}" class="btn btn-info btn-sm">Xem</a>
-            <a th:href="@{/employees/{id}/edit(id=${emp.id})}" class="btn btn-warning btn-sm">Sửa</a>
-            <form th:action="@{/employees/{id}/delete(id=${emp.id})}" method="post" class="d-inline">
+
+            <a sec:authorize="hasAnyRole('USER', 'ADMIN')"
+               th:href="@{/employees/{id}/edit(id=${emp.id})}" class="btn btn-warning btn-sm">Sửa</a>
+
+            <form sec:authorize="hasRole('ADMIN')"
+                  th:action="@{/employees/{id}/delete(id=${emp.id})}" method="post" class="d-inline">
                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
             </form>
         </td>
