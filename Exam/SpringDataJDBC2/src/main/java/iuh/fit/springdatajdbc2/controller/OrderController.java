@@ -14,6 +14,11 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @GetMapping
+    public Iterable<Order> getAll() {
+        return orderService.getAll();
+    }
+
     @GetMapping("/email")
     public List<Order> findOrderByCustomerEmail(@RequestParam String email) {
         return orderService.findOrderByCustomerEmail(email);

@@ -25,4 +25,8 @@ public class OrderService {
     public List<String> getProductNameByOrderId(Long id) {
         return orderRepository.getProductNameByOrderId(id);
     };
+
+    public Iterable<Order> getAll() {
+        return orderRepository.findAll();
+    }
 }
